@@ -1,45 +1,18 @@
 const { ObjectId } = require("mongoose").Types;
+const res = require("express/lib/response");
 const { User, Thought } = require("../models");
 
-// Aggregate function to get the number of students overall
-const headCount = async () =>
-  Student.aggregate()
-    .count("studentCount")
-    .then((numberOfStudents) => numberOfStudents);
-
-// Aggregate function for getting the overall grade using $avg
-const grade = async (studentId) =>
-  Student.aggregate([
-    // only include the given student by using $match
-    { $match: { _id: ObjectId(studentId) } },
-    {
-      $unwind: "$assignments",
-    },
-    {
-      $group: {
-        _id: ObjectId(studentId),
-        overallGrade: { $avg: "$assignments.score" },
-      },
-    },
-  ]);
-
 module.exports = {
-  // Get all students
-  getStudents(req, res) {
-    Student.find()
-      .then(async (students) => {
-        const studentObj = {
-          students,
-          headCount: await headCount(),
-        };
-        return res.json(studentObj);
-      })
+  // Get all users
+  getUsers(req, res) {
+    User.find()
+      .then((users) => res.json(users))
       .catch((err) => {
         console.log(err);
         return res.status(500).json(err);
       });
   },
-  // Get a single student
+  // TODO Get a single student
   getSingleStudent(req, res) {
     Student.findOne({ _id: req.params.studentId })
       .select("-__v")
@@ -56,10 +29,10 @@ module.exports = {
         return res.status(500).json(err);
       });
   },
-  // create a new student
-  createStudent(req, res) {
-    Student.create(req.body)
-      .then((student) => res.json(student))
+  // create a new user
+  createUser(req, res) {
+    User.create(req.body)
+      .then((users) => res.json(users))
       .catch((err) => res.status(500).json(err));
   },
   // Delete a student and remove them from the course
