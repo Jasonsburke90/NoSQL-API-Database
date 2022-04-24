@@ -26,7 +26,7 @@ const studentSchema = new Schema(
     id: false,
   }
 );
-// todo: add a virtual for friendcount
-const Student = model("student", studentSchema);
+// TODO: add a virtual for friendcount
+const User = model("user", studentSchema);
 
-module.exports = Student;
+module.exports = User;

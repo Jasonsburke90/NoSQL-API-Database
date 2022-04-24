@@ -31,6 +31,6 @@ const thoughtSchema = new Schema(
 );
 // TODO: Add a virtual for reaction counts
 
-const Thought = model("course", thoughtSchema);
+const Thought = model("thought", thoughtSchema);
 
 module.exports = Thought;
