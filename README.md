@@ -1,3 +1,3 @@
-# NoSQL API Database
+# Social Network API Database
 
 ## Description
