@@ -41,7 +41,18 @@ module.exports = {
         res.status(500).json(err);
       });
   },
-
+  // Update a user
+  updateUser(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $set: req.body },
+      { runValidators: true, new: true }
+    ).then((user) =>
+      !user
+        ? res.status(404).json({ message: "no user with this id!" })
+        : res.json(user)
+    );
+  },
   // Add an assignment to a student
   addAssignment(req, res) {
     console.log("You are adding an assignment");
