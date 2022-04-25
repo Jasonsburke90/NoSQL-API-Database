@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const {
   getThoughts,
-  // getSingleThought,
+  getSingleThought,
   createThought,
   updateCourse,
   deleteCourse,
@@ -10,11 +10,9 @@ const {
 // /api/thoughts
 router.route("/").get(getThoughts).post(createThought);
 
-// /api/courses/:courseId
-// router
-//   .route("/:courseId")
-//   .get(getSingleThought)
-//   .put(updateCourse)
-//   .delete(deleteCourse);
+// /api/thoughts/:thoughtId
+router.route("/:thoughtId").get(getSingleThought);
+// .put(updateCourse)
+// .delete(deleteCourse);
 
 module.exports = router;

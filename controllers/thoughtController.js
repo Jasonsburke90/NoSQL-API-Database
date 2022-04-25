@@ -8,15 +8,18 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
   // Get a thought
-  getSingleCourse(req, res) {
-    Course.findOne({ _id: req.params.courseId })
+  getSingleThought(req, res) {
+    Thought.findOne({ _id: req.params.thoughtId })
       .select("-__v")
-      .then((course) =>
-        !course
-          ? res.status(404).json({ message: "No course with that ID" })
-          : res.json(course)
+      .then(async (thought) =>
+        !thought
+          ? res.status(404).json({ message: "No thought with that ID" })
+          : res.json(thought)
       )
-      .catch((err) => res.status(500).json(err));
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json(err);
+      });
   },
   // Create a thought
   createThought(req, res) {
