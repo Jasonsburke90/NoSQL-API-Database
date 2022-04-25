@@ -1,13 +1,13 @@
 const { Thought, User } = require("../models");
 
 module.exports = {
-  // Get all courses
-  getCourses(req, res) {
-    Course.find()
-      .then((courses) => res.json(courses))
+  // Get all thoughts
+  getThoughts(req, res) {
+    Thought.find()
+      .then((thoughts) => res.json(thoughts))
       .catch((err) => res.status(500).json(err));
   },
-  // Get a course
+  // Get a thought
   getSingleCourse(req, res) {
     Course.findOne({ _id: req.params.courseId })
       .select("-__v")
@@ -18,10 +18,17 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-  // Create a course
-  createCourse(req, res) {
-    Course.create(req.body)
-      .then((course) => res.json(course))
+  // Create a thought
+  createThought(req, res) {
+    Thought.create(req.body)
+      .then((thought) => {
+        res.json(thought);
+        return User.findOneAndUpdate(
+          { _id: req.body.userId },
+          { $push: { thoughts: thought._id } },
+          { runValidators: true, new: true }
+        );
+      })
       .catch((err) => {
         console.log(err);
         return res.status(500).json(err);
