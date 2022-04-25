@@ -65,6 +65,18 @@ module.exports = {
         : res.json(user)
     );
   },
+  // delete a friend from a student
+  deleteFriend(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $pull: { friends: req.params.friendId } },
+      { runValidators: true, new: true }
+    ).then((user) =>
+      !user
+        ? res.status(404).json({ message: "no user with this id!" })
+        : res.json(user)
+    );
+  },
   // Add an assignment to a student
   addAssignment(req, res) {
     console.log("You are adding an assignment");
