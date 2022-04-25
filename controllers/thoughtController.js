@@ -58,4 +58,16 @@ module.exports = {
         : res.json(thought)
     );
   },
+  // create reaction
+  createReaction(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $push: { reactions: req.body } },
+      { runValidators: true, new: true }
+    ).then((thought) =>
+      !thought
+        ? res.status(404).json({ message: "no thought with this id!" })
+        : res.json(thought)
+    );
+  },
 };
